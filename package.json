@@ -1,0 +1,26 @@
+{
+    "name": "rn-collapsible",
+    "version": "0.0.1",
+    "scripts": {
+        "start": "node node_modules/react-native/local-cli/cli.js start",
+        "test": "jest"
+    },
+    "devDependencies": {
+        "react": "^16.4.1",
+        "react-native": "^0.56.0"
+    },
+    "peerDependencies": {
+        "react": "*",
+        "react-native": "*"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vuhoangha/rn-collapsible.git"
+    },
+    "keywords": [],
+    "author": "vuhoangha",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/vuhoangha/rn-collapsible/issues"
+    }
+}
