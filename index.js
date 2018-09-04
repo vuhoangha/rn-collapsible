@@ -23,7 +23,7 @@ export default class RnCollapsible extends Component {
         this.onLayoutHeader = this.onLayoutHeader.bind(this);
 
         this.heightHeader = 0;
-        this.heightAnimation = new Animated.Value(this.heightHeader);
+        this.heightAnimation = new Animated.Value(0);
         this.state = {
             isExpand: typeof this.props.isExpand === 'boolean'
                 ? this.props.isExpand
@@ -58,6 +58,7 @@ export default class RnCollapsible extends Component {
 
     onLayoutHeader(event) {
         this.heightHeader = event.nativeEvent.layout.height;
+        this.heightAnimation.setValue(this.heightHeader);
     }
 
     render() {
@@ -66,10 +67,7 @@ export default class RnCollapsible extends Component {
             : {};
         return (
             <Animated.View style={styleAnimated}>
-                <TouchableOpacity
-                    onPress={this.onClick}
-                    onLayout={this.onLayoutHeader}
-                >
+                <TouchableOpacity onPress={this.onClick} onLayout={this.onLayoutHeader}>
                     {this.props.renderHeader()}
                 </TouchableOpacity>
                 <View onLayout={this.onLayoutContent}>
