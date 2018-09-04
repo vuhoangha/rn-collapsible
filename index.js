@@ -12,7 +12,6 @@ export default class RnCollapsible extends Component {
         onChange: PropTypes.func,
         renderHeader: PropTypes.func.isRequired,
         renderContent: PropTypes.func.isRequired,
-        heightHeader: PropTypes.number.isRequired,
         isExpand: PropTypes.bool
     }
 
@@ -20,9 +19,11 @@ export default class RnCollapsible extends Component {
         super(props);
 
         this.onClick = this.onClick.bind(this);
-        this.onLayout = this.onLayout.bind(this);
-        this.heightAnimation = new Animated.Value(this.props.heightHeader);
+        this.onLayoutContent = this.onLayoutContent.bind(this);
+        this.onLayoutHeader = this.onLayoutHeader.bind(this);
 
+        this.heightHeader = 0;
+        this.heightAnimation = new Animated.Value(this.heightHeader);
         this.state = {
             isExpand: typeof this.props.isExpand === 'boolean'
                 ? this.props.isExpand
@@ -45,23 +46,33 @@ export default class RnCollapsible extends Component {
         });
     }
 
-    onLayout(event) {
+    onLayoutContent(event) {
         Animated.timing(
             this.heightAnimation,
             {
-                toValue: this.props.heightHeader + event.nativeEvent.layout.height,
+                toValue: this.heightHeader + event.nativeEvent.layout.height,
                 duration: this.props.duration || 0
             }
         ).start();
     }
 
+    onLayoutHeader(event) {
+        this.heightHeader = event.nativeEvent.layout.height;
+    }
+
     render() {
+        const styleAnimated = this.heightHeader
+            ? { height: this.heightAnimation, overflow: 'hidden' }
+            : {};
         return (
-            <Animated.View style={{ height: this.heightAnimation, overflow: 'hidden' }}>
-                <TouchableOpacity style={{ height: this.props.heightHeader }} onPress={this.onClick}>
+            <Animated.View style={styleAnimated}>
+                <TouchableOpacity
+                    onPress={this.onClick}
+                    onLayout={this.onLayoutHeader}
+                >
                     {this.props.renderHeader()}
                 </TouchableOpacity>
-                <View onLayout={this.onLayout}>
+                <View onLayout={this.onLayoutContent}>
                     {
                         this.state.isExpand
                             ? this.props.renderContent()
