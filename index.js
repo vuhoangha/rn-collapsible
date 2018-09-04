@@ -57,6 +57,7 @@ export default class RnCollapsible extends Component {
     }
 
     onLayoutHeader(event) {
+        if (this.heightHeader > 0) return;
         this.heightHeader = event.nativeEvent.layout.height;
         this.heightAnimation.setValue(this.heightHeader);
     }
